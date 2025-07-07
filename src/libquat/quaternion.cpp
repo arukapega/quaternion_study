@@ -117,6 +117,11 @@ quaternion quaternion::slerp(const quaternion& q0, const quaternion& q1, float t
 	//内積
 	float dot = q0_n.x_*q1_n.x_ + q0_n.y_*q1_n.y_ +
 				q0_n.z_*q1_n.z_ + q0_n.w_*q1_n.w_;
+	//内積がほぼ同じ方向
+	if (dot > 0.999) {
+		quaternion ans = q0 * (1.0 - t) + q1 * t;//Lerpで代用する
+		return ans.normalize();
+	}
 	//q0q1の角
 	float theta_0 = acos(dot);
 	float theta = theta_0 * t;
