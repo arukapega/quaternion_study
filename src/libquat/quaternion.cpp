@@ -49,16 +49,17 @@ vector3 quaternion::operator*(const vector3& v) const
 {
 	// todo: 実装して下さい
 	quaternion q = *this * quaternion(v.x(), v.y(), v.z(), 0.0);
-	return vector3();
+	q = q * conjugate();
+	return vector3(q.x_, q.y_, q.z_);
 }
 
 quaternion quaternion::operator*(const quaternion& rhs) const
 {
 	// todo: 実装して下さい
-	float qx = w_ * rhs.w_ - x_ * rhs.x_ - y_ * rhs.y_ - z_ * rhs.z_;
-	float qy = w_ * rhs.x_ + x_ * rhs.w_ + y_ * rhs.z_ - z_ * rhs.y_;
-	float qz = w_ * rhs.y_ - x_ * rhs.z_ + y_ * rhs.w_ + z_ * rhs.x_;
-	float qw = w_ * rhs.z_ + x_ * rhs.y_ - y_ * rhs.x_ + z_ * rhs.w_;
+	float qx = w_ * rhs.x_ + x_ * rhs.w_ + y_ * rhs.z_ - z_ * rhs.y_;
+	float qy = w_ * rhs.y_ - x_ * rhs.z_ + y_ * rhs.w_ + z_ * rhs.x_;
+	float qz = w_ * rhs.z_ + x_ * rhs.y_ - y_ * rhs.x_ + z_ * rhs.w_;
+	float qw = w_ * rhs.w_ - x_ * rhs.x_ - y_ * rhs.y_ - z_ * rhs.z_;
 	return quaternion(qx, qy, qz, qw);
 }
 
@@ -73,10 +74,10 @@ quaternion &quaternion::identity()
 {
 	// todo: 実装して下さい
 	float norm = sqrt(length_sq());
-	x_ = x_ / norm;
-	y_ = y_ / norm;
-	z_ = z_ / norm;
-	w_ = w_ / norm;
+	x_ /= norm;
+	y_ /= norm;
+	z_ /= norm;
+	w_ /= norm;
 	return *this;
 }
 
